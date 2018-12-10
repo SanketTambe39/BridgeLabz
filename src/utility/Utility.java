@@ -110,6 +110,9 @@ public class Utility
 			
 		}
 	}
+	
+/****************** Method for print 1d Char Array*****************/	
+
 	public void printArray(char arr[])
 	{
 		for(int i=0; i<arr.length; i++)
@@ -119,10 +122,22 @@ public class Utility
 		}
 	}
 	
-
-//.................Functional Programs...........................................
+	public void printArrayRev(int arr[])
+	{
+		for(int i=arr.length-1; i>=0; i--)
+		{
+			
+			print(""+arr[i]);
+			if(i%4==0)
+			{
+				print(" ");
+			}
+		}
+	}
+/*********************Functional Programs*****************************/
 	
-//Program for replace <<Username>>................................	
+/**************Program for replace <<Username>> in a string ************/
+	
 	public String replaceString(String str, String str2)
 	{
 		str = str.replaceAll("<<UserName>>", str2);
@@ -770,29 +785,7 @@ public class Utility
     		return false;
     	}
     	
-    	/*for(int i=0; i<ch1.length; i++)
-    	{
-    		for(int j=0; j<ch2.length; j++)
-    		{
-    			if(ch1[i]==ch2[j])
-    			{
-    				status = true;
-    				j=ch2.length;
-    			}
-    			else
-    			{
-    				status= false;
-    				//return status;
-    			}
-    		}
-    		if(status != true)
-    		{
-    			return false;
-    		}
-    	}
-    	return status;*/
     }
-	
     
     public int[] getPrime(int range)
     {
@@ -1271,14 +1264,48 @@ public class Utility
     	return temp;
     }
     
+    
+    public int[] swapNibble(int arr[])
+    {
+    	int count =0;
+    	/*printArray(arr);*/
+    	while(count++<4)
+    	{
+    		int temp=arr[arr.length-1];
+    		for(int i=arr.length-1; i>0; i--)
+    		{
+    			arr[i]=arr[i-1];
+    		}
+    		arr[0]=temp;
+    	}
+    	/*printArray(arr);*/
+    	
+    	/*toDecimal(arr);*/
+    	return arr;
+    }
+    
+    public int toDecimal(int arr[])
+    {
+    	int sum=0;
+    	for(int i=arr.length-1; i>=0; i--)
+		{
+    		
+    		sum= (int) (sum+(Math.pow(2,i)*arr[i]));
+    		println((int)Math.pow(2,i)+" * "+arr[i]);
+    		
+		}
+    	print("\n "+sum+"");
+    	return sum;
+    }
+    
     public static void main(String []args)
 	{
 		Utility u = new Utility();
-		//int arr[]= {60,50,30,40,20,10};
+		int arr[]= {0,0,0,0,1,1,1,1,0,0,0,0,1,1,1,1};
 		
 		//String arr[]= {"aksh","swap","good","bad", "john","abcd"};
 		
-		u.toBinary(101);
+		u.swapNibble(arr);
 		//u.print(""+d);
 		//u.printArray(arr);
 	}
