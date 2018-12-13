@@ -4,6 +4,9 @@
 package utility;
 
 import java.util.Scanner;
+
+import algorithms.Jobs;
+
 import java.util.Random;
 import java.io.PrintWriter;
 import java.util.Arrays;
@@ -1298,6 +1301,68 @@ public class Utility
     	return sum;
     }
     
+    
+    public void jobScheduler(Jobs jobs[])
+    {
+    	int n= jobs.length;
+    	
+    	for(int i = 1; i < n; i++)
+    	{
+    		for(int j=0; j < n - i; j++)
+    		{
+    			if(jobs[j+1].deadLine < jobs[j].deadLine) 
+    			{
+    				Jobs temp = jobs[j+1];
+    				jobs[j+1] = jobs[j];
+    				jobs[j] = temp;
+    			}
+    		}
+    	}
+    	
+    	int maxTime = jobs[n-1].deadLine*60;
+    	
+    	int completionTime = jobs[0].completionTime;
+    	//int deadLine = jobs[0].completionTime;
+    	print("\n The scheduled jobs are : \n ");
+    	print("Job"+jobs[0].label+">>");
+    	
+    	for(int i=1; i<n; i++)
+    	{
+    		int deadLine = (jobs[i].deadLine*60)-completionTime; 
+    		if((jobs[i].deadLine*60) > completionTime && (jobs[i].completionTime)<deadLine && maxTime>= completionTime)
+    		{
+    			print("Job"+jobs[i].label+">>");
+    			completionTime= completionTime+ jobs[i].completionTime;
+    			
+    		}
+    			
+    	}
+    	
+    	
+    	/*for(int i=1; i<=n; i++)
+    	{
+    		System.out.print("\n Job "+i+"Deadline : "+jobs[i-1].deadLine);
+    		 
+    		
+    		System.out.println("\n Job "+i+"Time to Complete : "+jobs[i-1].completionTime);
+
+    	}*/
+    	
+    }
+    
+ 
+/*****************************Algorithm End*****************/
+    
+/***************************Data Structure*****************/
+    
+  public void unorderedList()
+  {
+	  
+  }
+    
+    
+    
+    
     public static void main(String []args)
 	{
 		Utility u = new Utility();
@@ -1309,6 +1374,8 @@ public class Utility
 		//u.print(""+d);
 		//u.printArray(arr);
 	}
+
+	
 
 }
 
