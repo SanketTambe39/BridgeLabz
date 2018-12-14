@@ -45,6 +45,10 @@ public class Queue<T>
 	{
 		queue.display();
 	}
+	public void display2()
+	{
+		queue.display2();
+	}
 		
 	
 }

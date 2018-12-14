@@ -209,6 +209,19 @@ public class Utility
 		}
 	}
 	
+	
+// program for calculating factorial....................
+	public static int factorial(int n)
+	{
+		
+		if(n==1)
+			return 1;
+		
+		return factorial(n-1)*n;
+		
+	}
+	
+	
 //program for calculate harmonic value..........................................	
 	public float harmonicValue(int n)
 	{
@@ -366,9 +379,25 @@ public class Utility
 		{
 			for(int j=0; j<n; j++)
 			{
+				if(arr[i][j]==0)
+				{
+					continue;
+				}
 				writer.print(arr[i][j]+" ");
 			}
-			writer.println();
+			writer.println("\n");
+		}
+	}
+	
+	public void print2DArray(String arr[][],int m, int n)
+	{
+		for(int i=0; i<m; i++)
+		{
+			for(int j=0; j<n; j++)
+			{
+				print(arr[i][j]+" ");
+			}
+			println("");
 		}
 	}
 	public void print2DArray(float arr[][],int m, int n)
@@ -821,6 +850,34 @@ public class Utility
     	
     	return prime;
     }
+    public int[][] getPrime2D(int range)
+    {
+    	int  prime2D[][]= new int[range/100][range/10];
+    	
+    	int prime[]= getPrime(range);
+    	int count=0, limit=100;
+    	
+    	for(int i=0; i<range/100; i++)
+    	{
+    		for(int j=0;j<range/10;j++)
+    		{
+    			if(prime[count]>limit || prime[count]==0) 
+    			{
+    				break;
+    			}
+    			prime2D[i][j]=prime[count];
+    			count++;
+    		}
+    		limit= limit+100;
+    	}
+    	
+    	           	
+    	//printArray(prime);
+
+    	
+    	//print2DArray(prime2D, prime2D.length, prime2D[0].length);
+    	return prime2D;
+    }
     
     public void getPalPrime(int range)
     {
@@ -847,7 +904,7 @@ public class Utility
     	
     }
     
-    public void getAnagramPrime(int range)
+    public int[] getAnagramPrime(int range)
     {
     	int prime[]=getPrime(range);
     	int anagram[]=new int[range];
@@ -863,26 +920,51 @@ public class Utility
     				String s2= Integer.toString(prime[j]);
     				if(isAnagram(s1,s2))
     				{
-    					count2 = count1+1;
+    					//count2 = count1+1;
     					anagram[count1]=prime[i];
-    					anagram[count2]=prime[j];
-    					count1=count2+1;
+    					//anagram[count2]=prime[j];
+    					count1=count1+1;
     				}
     			}
     		}
 	    		
     	}
-    	for(int i=0; i<anagram.length-1; i=i+2)
+    	/*for(int i=0; i<anagram.length-1; i=i+2)
     	{
     		if(anagram[i]>0)
     		{
     			println(" "+anagram[i]+" "+anagram[i+1]);
     		}
-    	}
+    	}*/
     		
-    		
+    		return anagram;
     }
     
+    public int[][] anagram2D(int range)
+    {
+    	
+    	int anagram[]= getAnagramPrime(range);
+    	int  anagram2D[][]= new int[range/100][range/10];
+    	
+    	int count=0, limit=100;
+   
+    	for(int i=0; i<range/100; i++)
+    	{
+    		for(int j=0;j<range/10;j++)
+    		{
+    			if(anagram[count]>limit || anagram[count]<limit-100 || anagram[count]==0) 
+    			{
+    				break;
+    			}
+    			anagram2D[i][j]=anagram[count];
+    			count++;
+    		}
+    		limit= limit+100;
+    	}
+    	
+    	print2DArray(anagram2D, range/100, range/10);
+    	return anagram2D;
+    }
     
     public static boolean binarySearch(int searchEle, int arr[])
     {
@@ -1355,22 +1437,81 @@ public class Utility
     
 /***************************Data Structure*****************/
     
-  public void unorderedList()
-  {
-	  
-  }
-    
+	 public  String[][] getMonthCalender(int month, int year)
+	 {
+	    
+		 String []days= {"\t S","\t M","\tTu", "\t W","\tTh", "\t F", "\tSa"};
+		
+		 int day=Utility.dayOfWeek(1, month, year);
+		
+		 int Month[] ={ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+		
+		
+		 String MonthString[]={"January", "February", "March", "April", "May", "June", "July", 
+								"August", "September", "October", "November", "December" };
+		
+		 if(isLeapYear(year))
+		 {
+			 Month[1]=29;
+		 }
+		
+		 int weeks= (int)((Month[month-1]+day)/7)+1;
+		
+		 String calender[][]= new String[weeks][days.length];
+		
+		 int date=1;
+		 int i=0;
+		 
+		 print("\n\t\t "+MonthString[month-1]+"\t "+year);
+		 println("\n\t--------------------------------------------------");
+		
+		 printArray(days);
+		
+		
+		 println("\n\t--------------------------------------------------");
+		
+		
+		 while(i<day)
+		 {
+			 calender[0][i]="\t";
+			 i++;	
+		 }
+		
+		 i=day;
+		
+		 for(int j=0; j<weeks; j++)
+		 {
+			 for(; i<days.length; i++)
+			 {
+				 if(date<=Month[month-1]) 
+				 {
+					 calender[j][i]="\t"+date;
+					 date++;
+				 }
+				 else
+				 {
+					 calender[j][i]="\t";
+				 }
+			 }
+			 
+			 i=0;
+		 }
+		 
+		 return calender;
+	 
+	}
     
     
     
     public static void main(String []args)
 	{
 		Utility u = new Utility();
-		int arr[]= {0,0,0,0,1,1,1,1,0,0,0,0,1,1,1,1};
+	
+		u.anagram2D(1000);
 		
 		//String arr[]= {"aksh","swap","good","bad", "john","abcd"};
 		
-		u.swapNibble(arr);
+		//int d= u.factorial(5);
 		//u.print(""+d);
 		//u.printArray(arr);
 	}

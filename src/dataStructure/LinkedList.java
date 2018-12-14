@@ -190,22 +190,41 @@ public class LinkedList<T>
 		}
 		while(temp.next != null)
 		{
-			System.out.print(" "+temp.data+"-->>");
+			System.out.print(" "+temp.data+"<<<");
 			temp=temp.next;
 		}
 		System.out.print(" "+temp.data);
 	}
 	
-	public static void main(String[] args) {
+	public void display2()
+	{
+		Node<T> temp=head;
 		
-		LinkedList<Integer> queue= new LinkedList<Integer>();
-		
-		//queue.add(55);
-		queue.insert(50, 0);
-		queue.insert(45, 0);
-		queue.insert(32, 0);
-		queue.display();
+		if(head==null)
+		{
+			
+			System.out.print(" ");
+			return;
+		}
+		int count=1;
+		while(temp.next != null)
+		{ 
+			
+			if(count<=7)
+			{
+				System.out.print(" "+temp.data+" ");
+				temp=temp.next;
+				count++;
+			}
+			else
+			{
+				count=1;
+				System.out.println("\n");
+			}
+		}
+		System.out.print(" "+temp.data);
 	}
+	
 	
 	
 }
