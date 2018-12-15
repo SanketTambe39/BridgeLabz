@@ -34,7 +34,7 @@ public class Queue<T>
 		rear++;
 	}
 	
-	public int deque()
+	public T deque()
 	{
 		rear--;
 		return queue.remove(queue.head.data);

@@ -372,8 +372,10 @@ public class Utility
 		return arr;
 	}
 	
-	public void print2DArray(int arr[][],int m, int n)
+	public void print2DArray(int arr[][])
 	{
+		int m=arr.length;
+		int n=arr[0].length;
 		PrintWriter writer= new PrintWriter(System.out, true);
 		for(int i=0; i<m; i++)
 		{
@@ -389,8 +391,10 @@ public class Utility
 		}
 	}
 	
-	public void print2DArray(String arr[][],int m, int n)
+	public void print2DArray(String arr[][])
 	{
+		int m=arr.length;
+		int n=arr[0].length;
 		for(int i=0; i<m; i++)
 		{
 			for(int j=0; j<n; j++)
@@ -400,8 +404,10 @@ public class Utility
 			println("");
 		}
 	}
-	public void print2DArray(float arr[][],int m, int n)
+	public void print2DArray(float arr[][])
 	{
+		int m=arr.length;
+		int n=arr[0].length;
 		PrintWriter writer= new PrintWriter(System.out, true);
 		for(int i=0; i<m; i++)
 		{
@@ -412,8 +418,10 @@ public class Utility
 			writer.println();
 		}
 	}
-	public void print2DArray(boolean arr[][],int m, int n)
+	public void print2DArray(boolean arr[][])
 	{
+		int m=arr.length;
+		int n=arr[0].length;
 		PrintWriter writer= new PrintWriter(System.out, true);
 		for(int i=0; i<m; i++)
 		{
@@ -912,7 +920,7 @@ public class Utility
     	//String str1[]=new String[prime.length];
     	for(int i=0;i < prime.length; i++)
     	{
-    		for(int j=0;j < prime.length; j++)
+    		for(int j=i;j < prime.length; j++)
     		{
     			if(prime[i]>0 && prime[j]>0 && prime[i]!= prime[j])
     			{
@@ -920,51 +928,55 @@ public class Utility
     				String s2= Integer.toString(prime[j]);
     				if(isAnagram(s1,s2))
     				{
-    					//count2 = count1+1;
+    					count2 = count1+1;
     					anagram[count1]=prime[i];
-    					//anagram[count2]=prime[j];
-    					count1=count1+1;
+    					anagram[count2]=prime[j];
+    					count1=count2+1;
     				}
     			}
     		}
 	    		
     	}
+    	//printArray(anagram);
     	/*for(int i=0; i<anagram.length-1; i=i+2)
     	{
     		if(anagram[i]>0)
     		{
     			println(" "+anagram[i]+" "+anagram[i+1]);
     		}
-    	}*/
-    		
+    	}
+    		*/
+    	//printArray(anagram);
     		return anagram;
     }
     
-    public int[][] anagram2D(int range)
+    public int[][] getAnagram2DPrime(int range)
     {
     	
     	int anagram[]= getAnagramPrime(range);
-    	int  anagram2D[][]= new int[range/100][range/10];
+    	int anagram2D[][] = new  int[range/100][range/10];
+    	int limit=0, count1=0, count2=0;
     	
-    	int count=0, limit=100;
-   
-    	for(int i=0; i<range/100; i++)
-    	{
-    		for(int j=0;j<range/10;j++)
-    		{
-    			if(anagram[count]>limit || anagram[count]<limit-100 || anagram[count]==0) 
-    			{
-    				break;
-    			}
-    			anagram2D[i][j]=anagram[count];
-    			count++;
-    		}
-    		limit= limit+100;
-    	}
-    	
-    	print2DArray(anagram2D, range/100, range/10);
+		for (int j = 0; j < anagram2D.length; j++) 
+		{
+			for (int i = 0; i < anagram.length - 1; i = i + 2) 
+			{
+				if (anagram[i] > limit && anagram[i + 1] > limit && anagram[i] < (limit + 100)
+						&& anagram[i + 1] < (limit + 100)) 
+				{
+					anagram2D[j][count2] = anagram[i];
+					anagram2D[j][count2 + 1] = anagram[i + 1];
+					count2 = count2 + 2;
+				}
+			}
+			limit=limit+100;
+		}
+		print2DArray(anagram2D);
     	return anagram2D;
+    	
     }
+    
+    
     
     public static boolean binarySearch(int searchEle, int arr[])
     {
@@ -1239,7 +1251,7 @@ public class Utility
     	}
     	//vendingMachine(change);
     	
-    	print2DArray( arr, 8, 2);
+    	print2DArray(arr);
     	return arr;
     }
     
@@ -1507,7 +1519,7 @@ public class Utility
 	{
 		Utility u = new Utility();
 	
-		u.anagram2D(1000);
+		u.getAnagram2DPrime(1000);
 		
 		//String arr[]= {"aksh","swap","good","bad", "john","abcd"};
 		

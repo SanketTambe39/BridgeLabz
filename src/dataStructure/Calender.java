@@ -14,6 +14,6 @@ public class Calender
 		String calender[][]=u.getMonthCalender( month, year);
 		int m = calender.length;
 		int n = calender[0].length;
-		u.print2DArray(calender, m, n);
+		u.print2DArray(calender);
 	}
 }

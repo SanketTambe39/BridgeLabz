@@ -25,15 +25,15 @@ public class TwoDArray
 		{
 		
 		case 1: int arr[][] = u.read2DArrayInt(m, n);
-				u.print2DArray(arr, m, n);
+				u.print2DArray(arr);
 				break;
 				
 		case 2: float arr1[][] = u.read2DArrayFloat(m, n);
-				u.print2DArray(arr1, m, n);		
+				u.print2DArray(arr1);		
 				break;
 				
 		case 3: boolean arr2[][] = u.read2DArrayBoolean(m, n);
-				u.print2DArray(arr2, m, n);		
+				u.print2DArray(arr2);		
 				break;
 				
 		default: u.print("You Entered a wrong choice");

@@ -45,13 +45,13 @@ public class Deque<T>
 		rear++;
 	}
 	
-	public int removeFront()
+	public T removeFront()
 	{
 		rear--;
 		return queue.remove(queue.head.data);
 		
 	}
-	public int removeRear()
+	public T removeRear()
 	{
 		
 		return queue.remove(queue.pop());

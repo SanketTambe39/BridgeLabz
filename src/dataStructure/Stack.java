@@ -33,16 +33,17 @@ public class Stack<T>
 		top++;
 	}
 	
-	public int pop()
+	public T pop()
 	{
-		T data = stack.pop();
-		return  stack.remove(data);
+		 
+		return  stack.pop();
 	}
 	
 	public void display()
 	{
 		stack.display();
 	}
+	
 	
 	
 }

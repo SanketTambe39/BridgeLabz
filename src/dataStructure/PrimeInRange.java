@@ -12,7 +12,7 @@ public class PrimeInRange
 		
 		int prime[][]=u.getPrime2D(1000);
 		
-		u.print2DArray(prime, prime.length, prime[0].length);
+		u.print2DArray(prime);
 
 	}
 

@@ -77,16 +77,20 @@ public class LinkedList<T>
 		return count;
 	}
 	
-	public int remove(T ele)
+	public T remove(T ele)
 	{
-		if(isEmpty()== -1)
+		if(head== null)
 		{
-			return -1;
+			return null;
 		}
-		else if(head.data == ele)
+		else if(head.data.toString().compareTo(ele.toString())==0)
 		{
-			head = head.next;
+			T data = head.data;
+			Node<T> temp =head.next;
+			head.next=null;
+			head = temp;
 			count--;
+			return data;
 		}
 		else
 		{
@@ -99,16 +103,18 @@ public class LinkedList<T>
 			if(temp.next.data.toString().compareTo(ele.toString())==0)
 			{
 				Node temp2 = temp.next.next;
+				T result= temp.next.data;
 				temp.next.next=null;
 				temp.next=temp2;
 				count--;
+				return result;
 			}
 			else
 			{
-				return-1;
+				return null;
 			}
 		}
-		return 1;
+		//return null;
 	}
 	
 	public int writeList(String fileName) throws IOException
@@ -169,11 +175,13 @@ public class LinkedList<T>
 	{
 		
 		Node<T> temp =head;
-		
+		Node<T> prev =temp;
 		while(temp.next != null)
 		{
+			prev=temp;
 			temp=temp.next;
 		}
+		prev.next=null;
 		return temp.data;
 		
 	}
