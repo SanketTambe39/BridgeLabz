@@ -4,12 +4,12 @@ package dataStructure;
 
 public class Stack<T> 
 {
-		int top=-1;
+		int top=0;
 		LinkedList<T> stack = new LinkedList<T>();
 	
 	public boolean isEmpty()
 	{
-		if(top==-1)
+		if(top==0)
 			return true;
 		return false;
 	}
@@ -29,19 +29,24 @@ public class Stack<T>
 	
 	public void push(T ele)
 	{
-		stack.add(ele);
 		top++;
+		stack.add(ele);
+		
 	}
 	
 	public T pop()
 	{
-		 
+		//top--;
 		return  stack.pop();
 	}
 	
 	public void display()
 	{
 		stack.display();
+	}
+	public void display2()
+	{
+		stack.display2();
 	}
 	
 	

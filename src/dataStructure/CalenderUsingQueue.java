@@ -2,7 +2,7 @@ package dataStructure;
 
 import utility.Utility;
 
-public class Week 
+public class CalenderUsingQueue 
 {
 	
 	public void WeekDay(int month, int year)
@@ -24,6 +24,7 @@ public class Week
 				weekDays.enque(calender[i][j]);
 			}
 		}
+		int count=1;
 		
 		weekDays.display2();
 	}
@@ -31,7 +32,7 @@ public class Week
 	public static void main(String[] args) 
 	{
 	
-		Week w=new Week();
+		CalenderUsingQueue w=new CalenderUsingQueue();
 		Utility u =new Utility();
 		
 		u.print("\n Enter the month and year \n Month : ");

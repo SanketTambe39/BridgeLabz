@@ -20,7 +20,7 @@ public class Queue<T>
 	
 	public int sizeOf()
 	{
-		return rear-front;
+		return rear;
 	}
 	
 	public T getFront()

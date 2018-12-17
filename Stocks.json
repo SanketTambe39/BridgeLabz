@@ -1,0 +1,9 @@
+{
+"Stocks":
+	[ 
+		{"name": "Stock1","nOfShare":15, "price":750 },
+		{"name": "Stock2","nOfShare":10, "price":950 },
+		{"name": "Stock3","nOfShare":12, "price":1050 },
+		{"name": "Stock4","nOfShare":24, "price":570 }
+	]
+}

@@ -1,1 +1,20 @@
-{"Rice":{"name":"rice","weight":15, "price":25 }, "Pulses":{"name":"pulse","weight":25, "price":40 },"Wheats":{"name":"wheat","weight":10, "price":28 }}
+{
+"rice":[
+	 {"name":"rice1","weight":15, "price":25 }, 
+	 {"name":"rice2","weight":33, "price":10 }, 
+	 {"name":"rice3","weight":25, "price":15 }
+       ], 
+
+"pulses":[
+	  {"name":"pulse","weight":25, "price":40 }, 
+	  {"name":"pulse2","weight":30, "price":25 }, 
+	  {"name":"pulse24","weight":21, "price":20 }, 
+	  {"name":"pulse13","weight":25, "price":12 }
+	 ],
+
+"wheats":[
+	  {"name":"wheat","weight":10, "price":28 },
+	  {"name":"wheat24","weight":15, "price":27 }
+	 ]
+
+}

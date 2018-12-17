@@ -460,6 +460,9 @@ public class Utility
  	
 	public  String swap(String str, int i, int j)
 	{
+		if(str == null || str.trim().isEmpty()) {
+			throw new IllegalArgumentException("Value can not be Blank or empty");
+		}
 		char ch[]=str.toCharArray();
 		
 		char temp = ch[i];
@@ -482,7 +485,7 @@ public class Utility
 			
 			while(j<n)
 			{
-				str = swap(str, i, j);
+				str = swap("  ", i, j);
 				permutationRecursion( str, i+1, n);
 				str=swap(str, i, j);	
 				j++;
@@ -628,7 +631,7 @@ public class Utility
 		return gameArray;
 	}
 	
-	public boolean isWinned(char gameArray[][])
+	public boolean isWin(char gameArray[][])
 
 	{
 		
@@ -765,7 +768,7 @@ public class Utility
 			case 'y': println("User Turn........ ");
 					  gameArray=markATick(gameArray, ch1, 1);
 					  printGameArray(gameArray);
-					  if(isWinned(gameArray)==true)
+					  if(isWin(gameArray)==true)
 					  {
 						  print("You win the game.....!\n");
 						  return;
@@ -776,7 +779,7 @@ public class Utility
 			case 'n': 	println("Computer Turn........ ");
 						gameArray=markATick(gameArray, ch2, 0);
 			  			printGameArray(gameArray);
-			  			if(isWinned(gameArray)==true)
+			  			if(isWin(gameArray)==true)
 						  {
 							  print("Computer won the game.....!\n");
 							  return;

@@ -1,12 +1,16 @@
 package functional;
 import utility.Utility;
 
+/**
+ * 
+ * @author admin1
+ */
 public class Permutation 
 {
 
 	public static void main(String[] args)
 	{
-		
+//		Get utilities
 		Utility u= new Utility();
 		
 		u.print("\n Enter a string to permute : ");
