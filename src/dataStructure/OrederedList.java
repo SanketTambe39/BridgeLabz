@@ -8,7 +8,7 @@ public class OrederedList<T>
 {
 	//OrederedList<T> list=new OrederedList<T>();
 		Node<T> head = null;	
-		Node<T> tail = null;
+		//Node<T> tail = null;
 		
 		int count=-1;
 		

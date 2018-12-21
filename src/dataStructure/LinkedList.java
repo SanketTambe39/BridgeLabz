@@ -6,12 +6,14 @@ import java.io.IOException;
 
 public class LinkedList<T>
 {
-
-	Node<T> head = null;	
-	Node<T> tail = null;
+	Node<T> head;
+	int count;
 	
-	int count=-1;
-	
+	public LinkedList()
+	{
+		head = null;
+		count=-1;
+	}
 	public void add(T data)
 	{
 		Node<T> newNode= new Node<T>(data, null);
@@ -77,6 +79,16 @@ public class LinkedList<T>
 		return count;
 	}
 	
+	public T getNode(int pos)
+	{
+		Node<T> tempNode=head;
+		int count2 = count;
+		while(count2--!=pos)
+		{
+			tempNode=tempNode.next;
+		}
+		return tempNode.data;
+	}
 	public T remove(T ele)
 	{
 		if(head== null)

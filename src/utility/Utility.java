@@ -8,6 +8,7 @@ import java.util.Scanner;
 import algorithms.Jobs;
 
 import java.util.Random;
+import java.io.File;
 import java.io.PrintWriter;
 import java.util.Arrays;
 
@@ -326,6 +327,15 @@ public class Utility
 	  	
 	}
 
+//program for reading files................................
+	
+	public static File getFile(String path)
+	{
+		File file = new File(path);
+		return file;
+	}
+	
+	
 //program for reading 2D arrays......................................................	
 	public int[][] read2DArrayInt(int m, int n)
 	{

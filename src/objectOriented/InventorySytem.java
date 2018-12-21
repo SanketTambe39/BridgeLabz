@@ -15,7 +15,9 @@ public class InventorySytem
 
 	public static void main(String[] args) throws JsonParseException, JsonMappingException, IOException 
 	{
+		
 		Utility u= new Utility();
+		
 		ObjectMapper mapper= new ObjectMapper();
 		
 	    File file= new File("Inventory.json");
@@ -23,6 +25,7 @@ public class InventorySytem
 	    JsonNode rootNode= mapper.readTree(file);
 	    
 	    System.out.print("\n Enter which inventory details u did have ? : ");
+	    
 	    String product = u.getString().toLowerCase();
 	    
 	    JsonNode inventory = rootNode.path(product);

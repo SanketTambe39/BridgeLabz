@@ -37,6 +37,12 @@ public class Stack<T>
 	public T pop()
 	{
 		//top--;
+		if(isEmpty())
+		{
+			System.out.println("Stack is empty");
+			return null;
+		}
+		top--;
 		return  stack.pop();
 	}
 	

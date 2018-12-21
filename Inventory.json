@@ -1,20 +1,22 @@
 {
-"rice":[
-	 {"name":"rice1","weight":15, "price":25 }, 
-	 {"name":"rice2","weight":33, "price":10 }, 
-	 {"name":"rice3","weight":25, "price":15 }
-       ], 
+	"rice":
+		[
+		{"name":"rice1","price": 15, "weight":25},
+		{"name":"rice2","price": 25, "weight":15},
+		{"name":"rice3","price": 35, "weight":35}
+		], 
 
-"pulses":[
-	  {"name":"pulse","weight":25, "price":40 }, 
-	  {"name":"pulse2","weight":30, "price":25 }, 
-	  {"name":"pulse24","weight":21, "price":20 }, 
-	  {"name":"pulse13","weight":25, "price":12 }
-	 ],
+	"wheats":
+		[
+		{"name":"wheat1","price": 25, "weight":15},
+		{"name":"wheat2","price": 25, "weight":25},
+		{"name":"wheat3","price": 15, "weight":45}
+		],
 
-"wheats":[
-	  {"name":"wheat","weight":10, "price":28 },
-	  {"name":"wheat24","weight":15, "price":27 }
-	 ]
-
+	"pulses":
+		[
+		{"name":"pulse1","price": 15, "weight":35},
+		{"name":"pulse2","price": 25, "weight":15},
+		{"name":"pulse3","price": 15, "weight":15}
+		]
 }

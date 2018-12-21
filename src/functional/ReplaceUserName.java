@@ -11,10 +11,23 @@ public class ReplaceUserName
 		
 		System.out.print("\n Enter the Username : ");
 		
-		String str = u.getString();
 		
-		u.replaceString("Hello <<UserName>>, How are you? ", str);
-		    
+		boolean flag=true;
+		while(flag)
+		{		
+			String str = u.getString();
+			
+			if(str.length()>3)
+			{
+				u.replaceString("Hello <<UserName>>, How are you? ", str);
+				flag=false;
+			} 
+			else
+			{
+				System.out.println("\n Enter the string again : ");
+				flag=true;
+			}
+		}
 		
 	}
 	

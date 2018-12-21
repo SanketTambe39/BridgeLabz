@@ -1,0 +1,1 @@
+{"stockList":{"userName":"Akshay","stocks":[{"name":"IBM","price":500,"numOfShare":6,"symbol":"@"},{"name":"GOOGLE","price":1000,"numOfShare":6,"symbol":"G"},{"name":"YAHOO","price":750,"numOfShare":0,"symbol":"Y"},{"name":"MICROSOFT","price":950,"numOfShare":0,"symbol":"M"},{"name":"AMAZON","price":940,"numOfShare":2,"symbol":"A"}]}}

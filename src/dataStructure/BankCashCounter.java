@@ -13,18 +13,18 @@ public class BankCashCounter
 		
 		Utility u=new Utility();
 		
-		Random rd= new Random();
+		//Random rd= new Random();
 		
 		System.out.print("\n Enter the initial bank balance : ");
 		int initialAmount=u.getInt();
 		int i=1;
 		while(true)
 		{
-			int n=rd.nextInt(10);
-			if(n==0)
+			int n=10;
+			/*if(n==0)
 			{
 				n=n+2;
-			}
+			}*/
 			for( ; i<n ; i++)
 			{
 				cashCounter.enque(" "+i);	
