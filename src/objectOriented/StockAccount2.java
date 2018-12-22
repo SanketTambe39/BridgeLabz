@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.*;
 import utility.Utility;
@@ -18,9 +19,7 @@ public class StockAccount2
 	private static ObjectMapper mapper;
 	private static File file;
 	private LinkedList<CompanyShares> stockList=new LinkedList<CompanyShares>();
-	private LinkedList<Customers> user = new LinkedList<Customers>();
-	private Customers customer;
-	private UserInformation userInfo=new UserInformation();
+	private LinkedList<Customers> customerList = new LinkedList<Customers>();
 	
 	StockAccount2()
 	{}
@@ -33,7 +32,35 @@ public class StockAccount2
 		createAccount();
 	}
 	
-	public void createAccount() throws IOException
+	
+	
+	public void createAccount() throws JsonParseException, JsonMappingException, IOException
+	{
+		Utility utility=new Utility();
+		System.out.println("Enter UserName : ");
+		String userName= utility.getString();
+		
+		UserInformation userInformation= mapper.readValue(file, UserInformation.class);
+		
+		Customers customers[]=userInformation.getCustomers();
+		
+		for(Customers customer: customers)
+		{
+			customerList.add(customer);
+		}
+		
+		
+		Customers customer= new Customers(userName, );
+		customerList.add(customer);
+		
+		userInformation.setCustomers(customerList);
+		
+		mapper.writeValue(file, userInformation);
+		System.out.println();
+	}
+	
+	
+	/*public void createAccount() throws IOException
 	{
 		Utility utility= new Utility();
 		
@@ -49,12 +76,21 @@ public class StockAccount2
 		}
 
 		customer= new Customers(userName, share);
-		user=userInfo.getCustomers();
+		
+		Customers userd[]=userInfo.getCustomers();
+		
+		System.out.println(userd.length);
+		for(int i=0; i<userd.length; i++)
+		{
+			user.add(userd[i]);
+			System.out.println(userInfo.getCustomers()[i]);
+		}
+		
 		user.add(customer);
 		
 		Customers cust[]=new Customers[user.size()+1];
 		
-		for(int i=0; i<=user.size(); i++)
+		for(int i=0; i<user.size(); i++)
 		{
 			cust[i]=user.getNode(i);
 			System.out.println(cust[i].getUserName());
@@ -62,7 +98,7 @@ public class StockAccount2
 		
 		userInfo.setCustomers(cust);
 		mapper.writeValue(file, userInfo);
-	}
+	}*/
 	
 	public void addCompanyShares(String name, String symbol, double price, int numOfShares)
 	{
