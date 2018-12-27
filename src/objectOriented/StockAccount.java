@@ -15,6 +15,7 @@ public class StockAccount extends StockReport
 	private static File file;
 	private static ObjectMapper mapper;
 	private String userName;
+	
 	StockAccount(String fileName) throws JsonProcessingException, IOException
 	{
 		file=new File(fileName);

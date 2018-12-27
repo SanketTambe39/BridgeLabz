@@ -35,29 +35,30 @@ public class SimpleAddressBook {
 	{
 		Utility utility=new Utility();
 		AddressBook oldBook[]=mapper.readValue(file, AddressBook[].class);
-		
+		addressBook.clear();
 		for(AddressBook book: oldBook)
 		{
 			addressBook.add(book);
 		}
 			
 		System.out.print("\n Enter the details : \n First Name : ");
-		String firstName=utility.getString();  
+		String firstName=utility.getLine();  
 		
 		System.out.print(" Last Name : ");
-		String lastName=utility.getString();
+		String lastName=utility.getLine();
 		
-		System.out.print(" Enter Address : \n Locality : ");
-		String locality=utility.getString();
+		System.out.println("\n Enter Address :");
+		System.out.print(" Locality :");
+		String locality=utility.getLine();
 		
 		System.out.print(" City : ");
-		String city=utility.getString();
+		String city=utility.getLine();
 		
 		System.out.print(" State : ");
-		String state= utility.getString();
+		String state= utility.getLine();
 		
 		System.out.print(" ZipCode: ");
-		String zip= utility.getString();
+		String zip= utility.getLine();
 		
 		System.out.println("\n Enter Contact : ");
 		String contact= utility.getLine();
@@ -82,7 +83,7 @@ public class SimpleAddressBook {
 	public void removeEntry(String firstName, String lastName) throws JsonParseException, JsonMappingException, IOException
 	{
 		AddressBook oldBook[]=mapper.readValue(file, AddressBook[].class);
-		
+		addressBook.clear();
 		for(AddressBook book: oldBook)
 		{
 			if(book.getFirstName().equals(firstName) && book.getLastName().equals(lastName))
@@ -98,7 +99,7 @@ public class SimpleAddressBook {
 	public void edit(String firstName, String lastName) throws JsonParseException, JsonMappingException, IOException
 	{
 	
-		
+		addressBook.clear();
 		AddressBook oldBook[]= mapper.readValue(file, AddressBook[].class);
 		Utility utility= new Utility();
 		for(AddressBook book: oldBook)
@@ -111,13 +112,13 @@ public class SimpleAddressBook {
 				if(field.equals("address"))
 				{
 					System.out.println("\n Enter Address : ");
-					System.out.print("\n Locality : ");
+					System.out.print("\n Locality : \b");
 					String locality=utility.getLine();
 					locality=utility.getLine();
-					System.out.print("\n City : ");
+					System.out.print("\b\n City : ");
 					String city=utility.getString();
 					
-					System.out.print("\n State : ");
+					System.out.print("\b\n State : ");
 					String state= utility.getString();
 					
 					System.out.print("\n ZipCode: ");
@@ -147,7 +148,7 @@ public class SimpleAddressBook {
 	public void sortByName() throws JsonParseException, JsonMappingException, IOException
 	{
 		AddressBook oldBook[]= mapper.readValue(file, AddressBook[].class);
-		
+		addressBook.clear();
 		for(int i=0; i<oldBook.length-1; i++)
 		{
 			for(int j=i+1; j<oldBook.length; j++)
@@ -177,7 +178,7 @@ public class SimpleAddressBook {
 	public void sortByZip() throws JsonParseException, JsonMappingException, IOException
 	{
 		AddressBook oldBook[]= mapper.readValue(file, AddressBook[].class);
-		
+		addressBook.clear();
 		for(int i=0; i<oldBook.length-1; i++)
 		{
 			for(int j=i+1; j<oldBook.length; j++)
