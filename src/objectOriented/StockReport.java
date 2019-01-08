@@ -2,133 +2,151 @@ package objectOriented;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
+import java.util.LinkedList;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import objectOrinted.UserStocks;
 import utility.Utility;
 
-public class StockReport {
+public class StockReport 
+{
 
-	private File file;
-	private JsonNode rootNode;
-	private ObjectMapper mapper;
-
-	StockReport(){};
+	protected ObjectMapper mapper;
+	protected File file;
+	protected LinkedList<UserStocks> userStockList;
+	protected LinkedList<ShareList> shareList;
+	protected static Utility utility;
 	
-	StockReport(String fileName) throws JsonProcessingException, IOException {
-		file = new File(fileName);
-
-		mapper = new ObjectMapper();
-
-		rootNode = mapper.readTree(file);
+	
+	
+	public StockReport() {}
+	public StockReport(String fileName)
+	{
+		mapper=new ObjectMapper();
+		file=new File(fileName);
+		utility= new Utility();
+		userStockList= new LinkedList<UserStocks>();
+		shareList= new LinkedList<ShareList>();
 	}
-
-	double totalValueOfStock(JsonNode Stocks) {
-		double totalValueOfStock = 0;
-
-		for (JsonNode tempNode : Stocks) {
-			int price = tempNode.path("price").asInt();
-			int numOfShare = tempNode.path("numOfShare").asInt();
-			totalValueOfStock = totalValueOfStock + (price * numOfShare);
-		}
-
-		return totalValueOfStock;
-	}
-
-	void printStockDetails(String nameOfStockUser) throws JsonProcessingException, IOException {
+	
+	
+	public void addCompanyShares()
+	{
 		
-		JsonNode userAccount = rootNode.path("stockList");
-		String userName = userAccount.path("userName").textValue();
+		File companyShareFile= new File("CompanyShares.json");
 		
-		if(userName.equals(nameOfStockUser))
+		try 
 		{
-			JsonNode stocks= userAccount.path("stocks");
-			
-			for (JsonNode tempNode : stocks) 
+			ShareList shareListArray[]=mapper.readValue(companyShareFile, ShareList[].class);
+			shareList.clear();
+			for(ShareList share: shareListArray)
 			{
-
-				String name = tempNode.path("name").asText();
-				int price = tempNode.path("price").asInt();
-				int numOfShare = tempNode.path("numOfShare").asInt();
-				String symbol = tempNode.path("symbol").asText();
-				
-				System.out.println( "\n Name            : " + name +
-									"\n Symbol          : \'"+symbol+ 
-									"\'\n No.Of Shares    : " + numOfShare + 
-									"\n Price           : " + price + "$"+
-									"\n Total price     : " + (price * numOfShare) + "$");
-
+				shareList.add(share);
 			}
-
-			System.out.println("\n Total stocks price : " + totalValueOfStock(stocks) + "$");
 			
-		}
-		else
+			Date date= new Date();
+			System.out.print("\n Enter Company Name : ");
+			String name=utility.getLine();
+			
+			System.out.print("\n Enter Share Symbol : ");
+			char symbol=utility.getLine().charAt(0);
+			
+			System.out.print("\n Current no. of shares available : ");
+			int numOfShare=utility.getInt();
+			
+			System.out.print("\n Enter price per Shares : ");
+			double price=utility.getDouble();
+			
+			ShareList newShare=new ShareList(name, price, numOfShare, symbol, date.toLocaleString());
+			
+			shareList.add(newShare);
+			
+			mapper.writeValue(companyShareFile, shareList);
+		} 
+		catch (IOException e1) 
 		{
-			System.out.println("\n User Not Found.........!!!!!!!!!");
+			e1.printStackTrace();
 		}
-
+		
 	}
-
-	public static void main(String[] args) throws IOException {
-
-		Utility utility = new Utility();
-
-		try {
-
-			StockReport stock = new StockReport("Stocks1.json");
-			System.out.print("\n Enter the name of stock account user : ");
-
-			String nameOfStockUser = utility.getString();
-
-			try {
-				stock.printStockDetails(nameOfStockUser);
-
-			} catch (Exception e) {
-				System.out.println("\n User not exist");
-			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	
+	public void displayReport(String userName) throws JsonParseException, JsonMappingException, IOException
+	{
+		UserStocks users[]=mapper.readValue(new File("StockReport.json"), UserStocks[].class);
+		userStockList.clear();
+		for(UserStocks user: users)
+		{
+			userStockList.add(user);
+		}
+		for(UserStocks user: userStockList)
+		{
+			if(user.getUserName().equals(userName))
+			{
+				
+				System.out.println("\n "+userName+" stock report : \n");
+				System.out.println("---------------------------------------");
+				
+				for(ShareList share: user.getShareList())
+				{
+					System.out.println(" "+share.toString());
+					double total=share.getNumOfShare()*share.getPrice();
+					System.out.println(" Total share price : "+total+"$");
+					System.out.println("---------------------------------------");
+				}
+			}
+		}
+	}
+	
+	public double valueOf(String userName)
+	{
+		double sum=0;
+		for(UserStocks user: userStockList)
+		{
+			if(user.getUserName().equals(userName))
+			{
+				for(ShareList share: user.getShareList())
+				{
+					double total=share.getNumOfShare()*share.getPrice();
+					sum = sum + total;
+				}
+			}
+		}
+		return sum;
 	}
 
+	public void getStockReport()
+	{	
+		try 
+		{
+			UserStocks users[]=mapper.readValue(file, UserStocks[].class);
+			userStockList.clear();
+			for(UserStocks user: users)
+			{
+				userStockList.add(user);
+			}
+			System.out.print("\n Enter username to get their StockReport : ");
+			String userName=utility.getLine();
+			displayReport(userName);
+			System.out.println(" Total Balance of User shares is: "+valueOf(userName)+"$");
+		} 
+		catch (IOException e) 
+		{
+			e.printStackTrace();
+		} 
+		
+	}
+	
+	
+	public static void main(String[] args) 
+	{
+	
+		StockReport newStock = new StockReport("StockReport.json");
+		
+		//newStock.addCompanyShares();
+		newStock.getStockReport();
+	}
 }
-
-/*
- * class Stocklist { private Stocks stock;
- * 
- * public Stocklist(Stocks stock) { this.stock = stock; }
- * 
- * public void setStock(Stocks stock) { this.stock = stock; }
- * 
- * public Stocks getStock() { return stock; }
- * 
- * }
- * 
- * class Stocks {
- * 
- * private String name; private int nOfShares; private int price;
- * 
- * public Stocks(String name, int nOfShares, int price) { this.name = name;
- * this.nOfShares = nOfShares; this.price = price; }
- * 
- * public String getName() { return name; }
- * 
- * public int getNOfShares() { return nOfShares; }
- * 
- * public int getPrice() { return price; }
- * 
- * public void setName(String name) { this.name = name; }
- * 
- * public void setNOfShares(int nOfShares) { this.nOfShares = nOfShares; }
- * 
- * public void setPrice(int price) { this.price = price; }
- * 
- * public String to_String() { String str = "\"Stock\": " + "{" + "\"name\":" +
- * name + ", \"nOfShares\" :" + nOfShares + "\"Price :\"" + price + "}"; return
- * str; } }
- */

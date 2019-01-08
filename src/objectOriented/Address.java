@@ -53,7 +53,7 @@ public class Address
 	
 	public String toString()
 	{
-		return locality+", "+city+", "+state+", "+zip;
+		return this.locality+", \n "+this.city+", "+this.state+", "+this.zip+"\n";
 	}
 	
 }

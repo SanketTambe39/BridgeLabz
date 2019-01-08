@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.List;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonParseException;
@@ -18,11 +19,11 @@ public class CliniqueMangement
 	private ObjectMapper mapper;
 	private Patients patients[];
 	private Doctors doctors[];
-	private LinkedList<Patients> patientList; 
-	private LinkedList<Doctors> doctorList;
-	private LinkedList<Patients> searchResultPatient;
-	private LinkedList<Doctors> searchResultDoctor;
-	private LinkedList<Appointment> appointments;
+	private List<Patients> patientList; 
+	private List<Doctors> doctorList;
+	private List<Patients> searchResultPatient;
+	private List<Doctors> searchResultDoctor;
+	private List<Appointment> appointments;
 	private static Utility utility;
 	
 	public CliniqueMangement()
@@ -313,12 +314,12 @@ public class CliniqueMangement
 				
 				if(searchResultPatient.size()!=0)
 				{
-					return searchResultPatient.getFirst();
+					return ((LinkedList<Patients>) searchResultPatient).getFirst();
 				}
 			}
 			else
 			{
-				return searchResultPatient.getFirst();
+				return ((LinkedList<Patients>) searchResultPatient).getFirst();
 			}
 		}
 		else if(ch=='n'|| ch=='N')

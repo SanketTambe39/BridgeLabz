@@ -2,186 +2,275 @@ package objectOriented;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import com.fasterxml.jackson.core.JsonGenerationException;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.*;
+import java.util.LinkedList;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import objectOrinted.UserStocks;
 import utility.Utility;
-//import com.sun.org.apache.bcel.internal.classfile.Node;
 
-public class StockAccount extends StockReport
-{
-	private static File file;
-	private static ObjectMapper mapper;
-	private String userName;
-	
-	StockAccount(String fileName) throws JsonProcessingException, IOException
-	{
-		file=new File(fileName);
-		mapper= new ObjectMapper();
-		System.out.print("\n Enter UserName : ");
-		Utility utility=new Utility();
-		userName=utility.getString();
-		
-		createNewAccount(userName);
-		System.out.println("\n Welcome ---"+userName+ "\n Your Account is successfully created");
+public class StockAccount extends StockReport {
+	private ObjectMapper mapper;
+	private File file;
+	private LinkedList<UserStocks> userStockList;
+	private LinkedList<ShareList> shareList;
+	private static Utility utility;
+	public StockAccount() {
 	}
-	
-	
-	public Stocks newShareEntry(String name, String symbol, int price)
-	{
-		return new Stocks(name, price, 0, symbol);
+
+	public StockAccount(String fileName) {
+		file = new File(fileName);
+		mapper = new ObjectMapper();
+		utility = new Utility();
+		shareList = new LinkedList<ShareList>();
+		userStockList = new LinkedList<UserStocks>();
+		// createNewUser();
 	}
-	
-	
-	public void createNewAccount(String userName) throws JsonGenerationException, JsonMappingException, IOException
-	{
-		
-		StockObject stockObject = new StockObject();
-		ArrayList<Stocks> stocks=new ArrayList<Stocks>();
-		StockList stockList=new StockList();
-		
-		stocks.add(newShareEntry("IBM", "@", 500));
-		stocks.add(newShareEntry("GOOGLE", "G", 1000));
-		stocks.add(newShareEntry("YAHOO", "Y", 750));
-		stocks.add(newShareEntry("MICROSOFT", "M", 950));
-		stocks.add(newShareEntry("AMAZON", "A", 940));
-		
-		stockList.setUserName(userName);
-		stockList.setStocks(stocks);
-		
-		stockObject.setStockList(stockList);
-		
-		mapper.writeValue(file, stockObject);
-	}
-	
-	double valueOf() throws IOException
-	{
-		JsonNode rootNode = mapper.readTree(file);
-		JsonNode stockList = rootNode.path("stockList");
-		JsonNode stocks = stockList.path("stocks");
-		//System.out.println(totalValueOfStock(stocks));
-		return totalValueOfStock(stocks);
-	}
-	
-	void buy(int amount, String symbol) throws IOException
-	{
-		 
-		StockObject stockObject = new StockObject();
-		StockList stockList=new StockList();
-		
-		stockObject=mapper.readValue(file, StockObject.class);		
-		
-		stockList= stockObject.getStockList();
-		
-		ArrayList<Stocks> stocks=stockList.getStocks();
-	      
-		for(Stocks stock: stocks)
-		{
-			if(stock.getSymbol().equals(symbol))
-			{
-				int numOfShare=(int)(amount/stock.getPrice())+stock.getNumOfShare();
-				stock.setNumOfShare(numOfShare);
-				
+
+	public void createNewUser() {
+		UserStocks newUser = new UserStocks();
+		try {
+			UserStocks users[] = mapper.readValue(file, UserStocks[].class);
+			userStockList.clear();
+			for (UserStocks user : users) {
+				userStockList.add(user);
 			}
-			
+			System.out.print("\n Enter Username : ");
+			String name = utility.getLine();
+
+			newUser.setUserName(name);
+			newUser.setShareList(shareList);
+			userStockList.add(newUser);
+
+			mapper.writeValue(file, userStockList);
+			// return userStockList;
+
+		} catch (IOException e1) {
+			e1.printStackTrace();
 		}
-		stockList.setStocks(stocks);
-		stockObject.setStockList(stockList);
-		mapper.writeValue(file, stockObject);
-		  
+		// return userStockList;
 	}
-	
-	
-	void sell(int amount, String symbol) throws IOException
-	{
-		 
-		StockObject stockObject = new StockObject();
-		stockObject=mapper.readValue(file, StockObject.class);		
-		StockList stockList= stockObject.getStockList();
-		
-		ArrayList<Stocks> stocks=stockList.getStocks();
-	      
-		for(Stocks stock: stocks)
-		{
-			if(stock.getSymbol().equals(symbol))
-			{
-				int numOfShare=stock.getNumOfShare()-(int)(amount/stock.getPrice());
-				stock.setNumOfShare(numOfShare);
-			}
-			
-		}
-		stockList.setStocks(stocks);
-		stockObject.setStockList(stockList);
-		mapper.writeValue(file, stockObject);
-	     
-	}
-	
-	
-	public void printReport(String fileName) throws JsonProcessingException, IOException
-	{
-		StockReport stock= new StockReport(fileName);
-		stock.printStockDetails(userName);
-	}
-	
-	
-	public static void main(String[] args)
-	{
-	
-		try 
-		{
-			
-			Utility utility = new Utility();
-			StockAccount stockAccount = new StockAccount("Stocks1.json");
-			
-			while(true)
-			{
-				System.out.println("\n *****************Stock Account***************");
-				System.out.print("\n\t 1. Buy Shares \n\t "
-								+ "2. Sell Shares \n\t 3. Print Report \n\t 4. Total Account Balance "
-								+ "\n\t 5. Exit \n Enter Your choice :");
-				
-				int ch = utility.getInt();
-				
-				switch(ch)
-				{
-							
-				case 1: System.out.print("\n Enter the amount : ");
-						int amount=utility.getInt();
-						System.out.print("\n Enter the symbol : ");
-						String symbol= utility.getString();
-				
-						stockAccount.buy(amount, symbol);
-						break;
-						
-				case 2: System.out.print("\n Enter the amount : ");
-						amount=utility.getInt();
-						System.out.print("\n Enter the symbol : ");
-						symbol= utility.getString();
-		
-						stockAccount.sell(amount, symbol);
-						break;
-				
-				case 3: stockAccount.printReport("Stocks1.json");
-						break;
-						
-				case 4: double toatalBalance=stockAccount.valueOf();
-						System.out.println("\n Total Account balance is : "+toatalBalance );
-						break;
-						
-				case 5: return;
+
+	public void updateNumOfCompanyShares(int numOfShare, String symbol) {
+
+		try {
+			ShareList shares[] = mapper.readValue(new File("CompanyShares.json"), ShareList[].class);
+
+			shareList.clear();
+
+			for (ShareList share : shares) {
+				if (symbol.equals(share.getSymbol() + "")) {
+					numOfShare = share.getNumOfShare() - numOfShare;
+					share.setNumOfShare(numOfShare);
 				}
+				shareList.add(share);
 			}
-			
+			mapper.writeValue(new File("CompanyShares.json"), shareList);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		catch (IOException e) 
-		{
+
+	}
+
+	public void addShareToUserList(String symbol, int amount, String userName)throws IOException {
+		UserStocks users[] = mapper.readValue(file, UserStocks[].class);
+		ShareList shares[] = mapper.readValue(new File("CompanyShares.json"), ShareList[].class);
+
+		userStockList.clear();
+
+		for (UserStocks user : users) {
+			userStockList.add(user);
+		}
+
+		for (UserStocks user : userStockList) {
+			if (user.getUserName().equals(userName)) {
+				for (ShareList share : shares) {
+
+					if (symbol.equals(share.getSymbol() + "")) {
+						int numOfShare = (int) (amount / share.getPrice());
+						updateNumOfCompanyShares(numOfShare, symbol);
+						LinkedList<ShareList> userShares = user.getShareList();
+
+						userShares.add(share);
+						user.setShareList(userShares);
+						user.getShareList().getLast().setNumOfShare(numOfShare);
+
+					}
+				}
+
+			}
+		}
+		mapper.writeValue(new File("CompanyShares.json"), shareList);
+		mapper.writeValue(file, users);
+	}
+
+	public void buy(int amount, String symbol) {
+
+		try {
+			UserStocks users[] = mapper.readValue(file, UserStocks[].class);
+			userStockList.clear();
+
+			System.out.print("\n Enter Username for buying shares : ");
+			String userName = utility.getLine();
+
+			for (UserStocks user : users)	
+			{
+				userStockList.add(user);
+			}
+			boolean flag = false;
+			for (UserStocks user : userStockList) {
+				if (user.getUserName().equals(userName)) {
+
+					for (ShareList share : user.getShareList()) {
+
+						if (symbol.equals(share.getSymbol() + "")) {
+							int numOfShare = (int) (amount / share.getPrice());
+							share.setNumOfShare(numOfShare + share.getNumOfShare());
+							updateNumOfCompanyShares(numOfShare, symbol);
+							flag = true;
+						}
+
+					}
+
+				}
+
+			}
+			if (!flag) {
+				addShareToUserList(symbol, amount, userName);
+			}
+
+			mapper.writeValue(file, userStockList);
+
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
+
+	public void sell(int amount, String symbol) throws JsonParseException, JsonMappingException, IOException
+	{
+		
+		UserStocks users[] = mapper.readValue(file, UserStocks[].class);
+		userStockList.clear();
+
+		System.out.print("\n Enter Username for selling shares : ");
+		String userName = utility.getLine();
+
+		for (UserStocks user : users) {
+			userStockList.add(user);
+		}
+		boolean flag = false;
+		for (UserStocks user : userStockList) {
+			if (user.getUserName().equals(userName)) {
+
+				for (ShareList share : user.getShareList()) {
+
+					int numOfShare = (int) (amount / share.getPrice());
+					if (symbol.equals(share.getSymbol() + "") && share.getNumOfShare()>=numOfShare) {
+						
+						share.setNumOfShare(share.getNumOfShare()-numOfShare);
+						updateNumOfCompanyShares(-numOfShare, symbol);
+						flag = true;
+					}
+
+				}
+
+			}
+
+		}
+		if(!flag)
+		{
+			System.out.println("There is not much share that you had needed...");
+		}
+		mapper.writeValue(file, userStockList);
+		
+	}
+	
+	
+	public double valueOf(String userName)
+	{
+		StockReport newReport= new StockReport("StockReport.json");
+		return newReport.valueOf(userName);
+	}
+	
+	public void displayStockReport()
+	{
+		StockReport newReport= new StockReport("StockReport.json");
+		newReport.getStockReport();
+	}
+	
+	
+	public static void main(String[] args)  
+	{
+
+		StockAccount account = new StockAccount("StockReport.json");
+		
+		while(true)
+		{
+			System.out.println("\n *****************Stock Account******************"
+							+ " \n 1. Create New Account "
+							+ " \n 2. Buy Shares"
+							+ " \n 3. Sell Shares"
+							+ " \n 4. Display Report"
+							+ " \n 5. Get total account balance"
+							+ " \n 6. Close"
+							+ " \n Enter your Choice.............. : ");
+	
+			int choice= Integer.parseInt(utility.getLine());
+			
+			switch(choice)
+			{
+			case 1: account.createNewUser();
+					break;
+					
+			case 2: System.out.print(" \n Enter the share Symbol that you want to purchase"); 
+					String symbol=utility.getLine();
+					
+					System.out.print(" \n Enter the amount that you had : ");
+					int amount = Integer.parseInt(utility.getLine());
+					
+					account.buy(amount, symbol);
+					break;
+					
+			case 3: System.out.print(" \n Enter the share Symbol that you want to purchase"); 
+					symbol=utility.getLine();
+			
+					System.out.print(" \n Enter the amount that you had : ");
+					amount = Integer.parseInt(utility.getLine());
+			
+					try 
+					{
+						account.sell(amount, symbol);
+					}
+					catch (IOException e)
+					{
+						e.printStackTrace();
+					}
+					break;
+					
+			case 4: System.out.print("\n Enter Username for get report : ");
+					String userName=utility.getLine();
+					try 
+					{
+						account.displayReport(userName);
+					}
+					catch (IOException e) 
+					{
+						e.printStackTrace();
+					}
+					break;
+
+			case 5: System.out.print("\n Enter Username for get report : ");
+					userName=utility.getLine();
+					System.out.print("\n Total account balance : "+account.valueOf(userName));
+					break;
+					
+			case 6: System.out.println("\n -----------------Program is terminated-----------");
+					return;
+			}
+		}
+		
+	}
+
 }
-
-
-
-
